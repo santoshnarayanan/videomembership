@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 
 
-main_app = FastAPI()
+app = FastAPI()
 
-@main_app.get("/")
+@app.get("/")
 def homepage():
     return {"hello":"world"} # json data --> REST API
