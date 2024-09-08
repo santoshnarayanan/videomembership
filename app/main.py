@@ -5,13 +5,15 @@ from . import config, db
 from .users.models import User
 
 app = FastAPI()
+DB_SESSION =None # Setting global variable
 # settings = config.get_settings()
 
 @app.on_event("startup")
 def on_startup():
     # triggered when fastapi starts
     print("hello world")
-    db.get_session()
+    global DB_SESSION
+    DB_SESSION = db.get_session()
     sync_table(User)
 
 
