@@ -1,6 +1,5 @@
 import uuid
 from app.config import get_settings
-import UUID
 from cassandra.cqlengine import columns
 from cassandra.cqlengine.models import Model
 
