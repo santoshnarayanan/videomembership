@@ -20,8 +20,10 @@ def on_startup():
 @app.get("/")
 def homepage():
     return {
-        "hello": "world",
-        "keyspace": settings.keyspace,
-        "db_id": settings.db_client_id,
-        "db_secret": settings.db_client_secret
-    }  # json data --> REST API
+        "hello": "world"}  # json data --> REST API
+
+
+@app.get("/users")
+def users_list_view():
+    q = User.objects.all().limit(10)
+    return list(q)
