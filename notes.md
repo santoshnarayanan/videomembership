@@ -47,3 +47,26 @@ q = User.objects.all()
 for user in q:
     print(user.email, user.user_id, user.password)
 ```
+
+## Create user via jupyter notebook
+
+```python
+!pwd
+# output /home/ssntosh/projects/Python/FastApi/videomembership/fastApiProject
+
+from app import db
+from app.users.models import User
+from cassandra.cqlengine.management import sync_table
+
+user_a = User.create_user("hello@teamcfc.com", password='abc123')
+
+user_a.password
+# Output= '$argon2id$v=19$m=65536,t=3,p=4$fE32NWGmkJt4jY0Wlas3Fg$qaY3fdBdlvX8Af9so1N/6h4QXkKfEnUM1wJtXBLbYn4'
+
+user_a.verify_password('abc123')
+# Output = (True, '')
+
+user_a.verify_password('abc123d')
+# Output = (False, 'Invalid password')
+
+```
