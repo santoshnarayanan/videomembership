@@ -2,6 +2,7 @@ import pytest
 from app import db
 from app.users.models import User
 
+
 @pytest.fixture(scope="module")
 def setup():
     # setup
