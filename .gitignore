@@ -268,3 +268,9 @@ lib64
 
 /share
 /etc
+bin/pyrsa-decrypt
+bin/pyrsa-encrypt
+bin/pyrsa-keygen
+bin/pyrsa-priv2pub
+bin/pyrsa-sign
+bin/pyrsa-verify
