@@ -1,0 +1,9 @@
+{% if errors %}
+<p>An error occured while signing up</p>
+<p>{{ errors }}</p>
+    {% for error in errors  %}
+        <li>
+            <b>{{ error.loc[0] }}</b>: {{ error.msg }}
+        </li>
+    {% endfor %}
+{% endif %}

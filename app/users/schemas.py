@@ -1,8 +1,14 @@
-from pydantic import BaseModel, EmailStr, SecretStr, validator
+
 
 from .models import User
+from pydantic import BaseModel, EmailStr, SecretStr, validator
 from  cassandra.cqlengine.management import sync_table
 
+
+class UserLoginSchema(BaseModel):
+    email: EmailStr
+    password: SecretStr
+    
 
 class UserSignupSchema(BaseModel):
     email: EmailStr
@@ -23,3 +29,4 @@ class UserSignupSchema(BaseModel):
         if password != password_confirm:
             raise ValueError("Passwords do not match")
         return v
+    
