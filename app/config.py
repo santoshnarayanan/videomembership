@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     keyspace: str = Field(..., alias='ASTRADB_KEYSPACE')
     db_client_id: str = Field(..., alias='ASTRADB_CLIENT_ID')
     db_client_secret: str = Field(..., alias='ASTRADB_CLIENT_SECRET')
+    secret_key: str = Field(...)
+    jwt_algorithm: str = Field(default='HS256')
 
     class Config:
         env_file = '.env'
