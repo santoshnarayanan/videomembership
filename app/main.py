@@ -7,6 +7,7 @@ from cassandra.cqlengine.management import sync_table
 from pydantic import ValidationError
 
 from . import db, utils
+from .shortcuts import render
 from .users.models import User
 from .users.schemas import (UserSignupSchema, UserLoginSchema)
 
@@ -32,29 +33,30 @@ def on_startup():
 
 @app.get("/", response_class=HTMLResponse)
 def homepage(request: Request):
-    context = {"request": request, "abc": 123}
-    return templates.TemplateResponse("home.html", context)
+    context = { "abc": 123}
+    return render(request, "home.html", context)
 
 
 @app.get("/login", response_class=HTMLResponse)
 def login_get_view(request: Request):
-    return templates.TemplateResponse("auth/login.html", {"request": request})
+    return render(request, "auth/login.html")
 
 
 @app.post("/login", response_class=HTMLResponse)
 def login_post_view(request: Request, email: str = Form(...), password: str = Form(...)):
+    
     print(email, password)
     raw_data = {
         "email": email,
         "password": password
     }
     data, errors = utils.valid_schema_data_or_error(raw_data, UserLoginSchema)
-    return templates.TemplateResponse("auth/login.html", {"request": request, "data": data, "errors": errors})
+    return render(request, "auth/login.html", {"data": data, "errors": errors})
 
 
 @app.get("/signup", response_class=HTMLResponse)
 def signup_get_view(request: Request):
-    return templates.TemplateResponse("auth/signup.html", {"request": request})
+    return render(request, "auth/signup.html")
 
 
 @app.post("/signup", response_class=HTMLResponse)
@@ -62,14 +64,14 @@ def signup_post_view(request: Request, email: str = Form(...),
                      password: str = Form(...), password_confirm: str = Form(...),
 
                      ):
-    
+
     raw_data = {
         "email": email,
         "password": password,
         "password_confirm": password_confirm
     }
     data, errors = utils.valid_schema_data_or_error(raw_data, UserSignupSchema)
-    return templates.TemplateResponse("auth/signup.html", {"request": request, "data": data, "errors": errors})
+    return render(request, "auth/signup.html", {"data": data, "errors": errors})
 
 
 @app.get("/users")
