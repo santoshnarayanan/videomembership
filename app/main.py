@@ -1,3 +1,4 @@
+from multiprocessing import context
 import pathlib
 import json
 from fastapi import FastAPI, Request, Form
@@ -51,7 +52,11 @@ def login_post_view(request: Request, email: str = Form(...), password: str = Fo
         "password": password
     }
     data, errors = utils.valid_schema_data_or_error(raw_data, UserLoginSchema)
-    return render(request, "auth/login.html", {"data": data, "errors": errors})
+    context = {"data": data, "errors": errors}
+    if len(errors) > 0:
+        return render(request, "auth/login.html", context, status_code=400)
+
+    return render(request, "auth/login.html", context)
 
 
 @app.get("/signup", response_class=HTMLResponse)
@@ -71,6 +76,9 @@ def signup_post_view(request: Request, email: str = Form(...),
         "password_confirm": password_confirm
     }
     data, errors = utils.valid_schema_data_or_error(raw_data, UserSignupSchema)
+    if len(errors) > 0:
+        return render(request, "auth/signup.html", context, status_code=400)
+
     return render(request, "auth/signup.html", {"data": data, "errors": errors})
 
 
