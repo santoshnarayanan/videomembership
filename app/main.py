@@ -6,7 +6,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from cassandra.cqlengine.management import sync_table
 from pydantic import ValidationError
-from requests import session
+# from requests import session
 
 from . import db, utils
 from .shortcuts import render, redirect

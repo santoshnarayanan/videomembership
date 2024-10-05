@@ -1,5 +1,5 @@
 
-from requests import session
+# from requests import session
 from . import auth
 from .models import User
 from pydantic import BaseModel, EmailStr, SecretStr, validator, model_validator, field_validator
