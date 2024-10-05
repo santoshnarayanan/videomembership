@@ -9,7 +9,7 @@ from pydantic import ValidationError
 from requests import session
 
 from . import db, utils
-from .shortcuts import render
+from .shortcuts import render, redirect
 from .users.models import User
 from .users.schemas import (UserSignupSchema, UserLoginSchema)
 
@@ -57,7 +57,7 @@ def login_post_view(request: Request, email: str = Form(...), password: str = Fo
     context = {"data": data, "errors": errors}
     if len(errors) > 0:
         return render(request, "auth/login.html", context, status_code=400)
-    return render(request, "auth/login.html", {"logged_in": True}, cookies=data)
+    return redirect("/", cookies=data)
 
 
 @app.get("/signup", response_class=HTMLResponse)
@@ -79,8 +79,7 @@ def signup_post_view(request: Request, email: str = Form(...),
     data, errors = utils.valid_schema_data_or_error(raw_data, UserSignupSchema)
     if len(errors) > 0:
         return render(request, "auth/signup.html", context, status_code=400)
-
-    return render(request, "auth/signup.html", {"data": data, "errors": errors})
+    return redirect("/login")
 
 
 @app.get("/users")
