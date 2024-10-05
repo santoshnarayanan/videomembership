@@ -2,7 +2,7 @@
 from requests import session
 from . import auth
 from .models import User
-from pydantic import BaseModel, EmailStr, SecretStr, validator, root_validator, model_validator
+from pydantic import BaseModel, EmailStr, SecretStr, validator, model_validator, field_validator
 from  cassandra.cqlengine.management import sync_table
 
 
@@ -32,14 +32,14 @@ class UserSignupSchema(BaseModel):
     password: SecretStr
     password_confirm: SecretStr
 
-    @validator("email")
+    @field_validator("email")
     def email_available(cls, v, values, **kwargs):
         q = User.objects.filter(email=v)
         if q.count() != 0:
             raise ValueError("Email is not available")
         return v
     
-    @validator("password_confirm")
+    @field_validator("password_confirm")
     def passwords_match(cls, v, values, **kwargs):
         password = values.get('password')
         password_confirm = v
