@@ -2,7 +2,7 @@
 # from requests import session
 from . import auth
 from .models import User
-from pydantic import BaseModel, EmailStr, SecretStr, validator, model_validator, field_validator
+from pydantic import BaseModel, EmailStr, SecretStr, model_validator, field_validator
 from  cassandra.cqlengine.management import sync_table
 
 
@@ -14,8 +14,8 @@ class UserLoginSchema(BaseModel):
     [model_validator]
     def validate_user(cls, values):
         err_msg = "Invalid credentials.Please try again"
-        email = values.get("email")
-        password = values.get("password")
+        email = values.get("email") or None
+        password = values.get("password") or None
         # user = auth.authenticate_user(email, password)
         if email is None or password is None:
             raise ValueError(err_msg)

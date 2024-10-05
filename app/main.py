@@ -57,7 +57,9 @@ def login_post_view(request: Request, email: str = Form(...), password: str = Fo
     context = {"data": data, "errors": errors}
     if len(errors) > 0:
         return render(request, "auth/login.html", context, status_code=400)
-    return redirect("/", cookies=data)
+    # return redirect("/", cookies=data)
+    print(data)
+    return render(request, "auth/login.html", context=data)
 
 
 @app.get("/signup", response_class=HTMLResponse)
@@ -67,8 +69,7 @@ def signup_get_view(request: Request):
 
 @app.post("/signup", response_class=HTMLResponse)
 def signup_post_view(request: Request, email: str = Form(...),
-                     password: str = Form(...), password_confirm: str = Form(...),
-
+                     password: str = Form(...), password_confirm: str = Form(...)
                      ):
 
     raw_data = {

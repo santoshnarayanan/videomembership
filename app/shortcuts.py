@@ -15,7 +15,7 @@ def redirect(path, cookies:dict={}):
     return response
 
 
-def render(request,template_name, context={}, status_code:int=200, cookies={}):
+def render(request,template_name, context={}, status_code:int=200,cookies:dict={}):
     ctx = context.copy()
     ctx.update({"request": request})
     t = templates.get_template(template_name)
