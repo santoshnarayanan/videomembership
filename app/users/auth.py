@@ -20,7 +20,7 @@ def authenticate_user(email, password):
 def login(user_obj, expires=5):
     # step 2
     raw_data = {
-        "user_id": f"{user_obj.id}",
+        "user_id": f"{user_obj.user_id}",
         "role": "admin", 
         "exp" : datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(seconds=expires)
     }
