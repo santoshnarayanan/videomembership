@@ -6,7 +6,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from cassandra.cqlengine.management import sync_table
 from pydantic import ValidationError
-# from requests import session
+
 
 from . import db, utils
 from .shortcuts import render, redirect
@@ -42,6 +42,7 @@ def homepage(request: Request):
 @app.get("/login", response_class=HTMLResponse)
 def login_get_view(request: Request):
     session_id= request.cookies.get("session_id")
+    print(session_id)
     return render(request, "auth/login.html", {"logged_in": session_id is not None})
 
 
@@ -57,9 +58,7 @@ def login_post_view(request: Request, email: str = Form(...), password: str = Fo
     context = {"data": data, "errors": errors}
     if len(errors) > 0:
         return render(request, "auth/login.html", context, status_code=400)
-    # return redirect("/", cookies=data)
-    print(data)
-    return render(request, "auth/login.html", context=data)
+    return redirect("/",cookies=data)
 
 
 @app.get("/signup", response_class=HTMLResponse)
