@@ -1,7 +1,8 @@
+from calendar import c
 from multiprocessing import context
 import pathlib
 import json
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, Request, Form, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from cassandra.cqlengine.management import sync_table
@@ -10,6 +11,7 @@ from pydantic import ValidationError
 
 from . import db, utils
 from .shortcuts import render, redirect
+from .users.decorators import login_required
 from .users.models import User
 from .users.schemas import (UserSignupSchema, UserLoginSchema)
 
@@ -40,10 +42,16 @@ def homepage(request: Request):
 
 
 @app.get("/login", response_class=HTMLResponse)
+@login_required
 def login_get_view(request: Request):
     session_id= request.cookies.get("session_id")
     print(session_id)
     return render(request, "auth/login.html", {"logged_in": session_id is not None})
+
+@app.get("/account", response_class=HTMLResponse)
+def account_view(request: Request):
+    context = {} 
+    return render(request, "account.html", context)
 
 
 @app.post("/login", response_class=HTMLResponse)

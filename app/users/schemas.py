@@ -1,5 +1,6 @@
 
 # from requests import session
+from doctest import debug
 from . import auth
 from .models import User
 from pydantic import BaseModel, EmailStr, SecretStr, model_validator, field_validator
@@ -21,6 +22,7 @@ class UserLoginSchema(BaseModel):
             raise ValueError(err_msg)
         password = password.get_secret_value()
         user_obj = auth.authenticate_user(email, password)
+        print("user obj:",user_obj)
         if user_obj is None:
             raise ValueError(err_msg)
         token = auth.login(user_obj)
