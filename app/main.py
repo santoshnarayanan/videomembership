@@ -9,21 +9,24 @@ from cassandra.cqlengine.management import sync_table
 from pydantic import ValidationError
 
 
-from . import db, utils
+from . import db, utils, app
 from .shortcuts import render, redirect
 from .users.decorators import login_required
 from .users.models import User
 from .users.schemas import (UserSignupSchema, UserLoginSchema)
+
+from .handlers import *  # noqa
 
 
 # BASE_DIR= pathlib.Path(__file__).resolve() # path of main.py
 BASE_DIR = pathlib.Path(__file__).resolve().parent  # app directory
 TEMPLATE_DIR = BASE_DIR / "templates"  # path of templates directory
 
-app = FastAPI()
+# app = FastAPI()
 templates = Jinja2Templates(directory=str(TEMPLATE_DIR))
 DB_SESSION = None  # Setting global variable
 # settings = config.get_settings()
+
 
 
 @app.on_event("startup")

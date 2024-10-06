@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 
-{% block title %}  Your Account | {{ super() }}
+{% block title %}  {{status_code}} | {{ super() }}
 {% endblock title %}
     
 
 {% block content %}
-<h1>Your Account</h1>
+<h1>Error: {{status_code}}</h1>
 {% endblock content %}

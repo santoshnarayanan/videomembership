@@ -8,10 +8,12 @@ settings = config.get_settings()
 templates = Jinja2Templates(directory=str(settings.templates_dir)) 
 
 
-def redirect(path, cookies:dict={}):
+def redirect(path, cookies:dict={}, remove_session:bool=False):
     response = RedirectResponse(path, status_code=302)
     for k, v in cookies.items():
         response.set_cookie(key=k, value=v, httponly=True)
+    if remove_session:
+        response.set_cookie(key="session_id", value="", httponly=True)
     return response
 
 
