@@ -1,6 +1,6 @@
 
 from functools import wraps
-from fastapi import HTTPException, Request
+from fastapi import Request
 from .auth import verify_user
 from .exceptions import LoginRequiredException
 
